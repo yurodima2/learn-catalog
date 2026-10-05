@@ -7,7 +7,7 @@ minutes: number;
 const resources: Resource[] = [
 {
 id: 1,
-title: "Основи JavaScript",
+title: "Вступ до JavaScript",
 minutes: 10
 },
 {
