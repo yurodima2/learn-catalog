@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Resource } from '../types';
 
@@ -7,8 +7,10 @@ interface ResourceCardProps {
 }
 
 export default function ResourceCard({ resource }: ResourceCardProps) {
-  function handlePress() {
-    console.log('Натискання перевірено');
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  function handleToggle() {
+    setIsFavorite(previous => !previous);
   }
 
   return (
@@ -16,12 +18,19 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
       <Text style={styles.title}>{resource.title}</Text>
       <Text style={styles.meta}>Тривалість: {resource.minutes} хв</Text>
       
+      {/* Статус обраного */}
+      <Text style={styles.status}>
+        Статус: {isFavorite ? 'В обраному' : 'Не в обраному'}
+      </Text>
+
       <Pressable
-        onPress={handlePress}
+        onPress={handleToggle}
         style={styles.button}
         accessibilityRole="button"
       >
-        <Text style={styles.buttonText}>Перевірити кнопку</Text>
+        <Text style={styles.buttonText}>
+          {isFavorite ? 'Прибрати з обраного' : 'Додати в обране'}
+        </Text>
       </Pressable>
     </View>
   );
@@ -46,12 +55,19 @@ const styles = StyleSheet.create({
   meta: {
     fontSize: 16,
     color: '#666666',
+    marginBottom: 8,
+  },
+  status: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#007AFF',
+    marginBottom: 8,
   },
   button: {
     backgroundColor: '#007AFF',
     padding: 12,
     minHeight: 48,
-    marginTop: 12,
+    marginTop: 4,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 6,
